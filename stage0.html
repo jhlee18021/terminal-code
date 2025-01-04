@@ -39,10 +39,10 @@
     <div class="container">
         <h1>Enter the 4-letter code</h1>
         <div>
-            <input type="text" class="input-box" maxlength="1" id="char1" oninput="moveFocus(1)" autocomplete="off">
-            <input type="text" class="input-box" maxlength="1" id="char2" oninput="moveFocus(2)" autocomplete="off">
-            <input type="text" class="input-box" maxlength="1" id="char3" oninput="moveFocus(3)" autocomplete="off">
-            <input type="text" class="input-box" maxlength="1" id="char4" oninput="moveFocus(4)" autocomplete="off">
+            <input type="text" class="input-box" maxlength="1" id="char1" oninput="moveFocus(1)" onkeydown="handleBackspace(event, 1)" autocomplete="off">
+            <input type="text" class="input-box" maxlength="1" id="char2" oninput="moveFocus(2)" onkeydown="handleBackspace(event, 2)" autocomplete="off">
+            <input type="text" class="input-box" maxlength="1" id="char3" oninput="moveFocus(3)" onkeydown="handleBackspace(event, 3)" autocomplete="off">
+            <input type="text" class="input-box" maxlength="1" id="char4" oninput="moveFocus(4)" onkeydown="handleBackspace(event, 4)" autocomplete="off">
         </div>
         <button onclick="checkCode()">Submit</button>
     </div>
@@ -50,6 +50,12 @@
         function moveFocus(current) {
             if (current < 4) {
                 document.getElementById('char' + (current + 1)).focus();
+            }
+        }
+
+        function handleBackspace(event, current) {
+            if (event.key === 'Backspace' && !event.target.value && current > 1) {
+                document.getElementById('char' + (current - 1)).focus();
             }
         }
 
