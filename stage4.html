@@ -6,16 +6,44 @@
     <meta name="google" content="notranslate">
     <title>Stage 4</title>
     <style>
+        body {
+            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred background image */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
         .hidden { display: none; }
         .visible { display: block; }
+        #wordInput {
+            width: 300px;
+            height: 40px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            height: 40px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-    <h1>Stage 4</h1>
-    <input type="text" id="wordInput" placeholder="Enter the word">
-    <button onclick="checkWord()">Submit</button>
-    <div id="congrats" class="hidden">
-        <h2>Congratulations! 빠밤!</h2>
+    <div class="container">
+        <h1>Stage 4</h1>
+        <input type="text" id="wordInput" placeholder="Enter the word">
+        <button onclick="checkWord()">Submit</button>
+        <div id="congrats" class="hidden">
+            <h2>Congratulations! 빠밤!</h2>
+        </div>
     </div>
     <script>
         function checkWord() {

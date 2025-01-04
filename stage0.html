@@ -6,25 +6,46 @@
     <meta name="google" content="notranslate">
     <title>Stage 0</title>
     <style>
+        body {
+            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred background image */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
         .input-box {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             font-size: 24px;
             text-align: center;
             margin: 5px;
         }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        button {
+            height: 40px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-    <h1>Enter the 4-letter code</h1>
-    <div>
-        <input type="text" class="input-box" maxlength="1" id="char1" oninput="moveFocus(1)">
-        <input type="text" class="input-box" maxlength="1" id="char2" oninput="moveFocus(2)">
-        <input type="text" class="input-box" maxlength="1" id="char3" oninput="moveFocus(3)">
-        <input type="text" class="input-box" maxlength="1" id="char4" oninput="moveFocus(4)">
+    <div class="container">
+        <h1>Enter the 4-letter code</h1>
+        <div>
+            <input type="text" class="input-box" maxlength="1" id="char1" oninput="moveFocus(1)">
+            <input type="text" class="input-box" maxlength="1" id="char2" oninput="moveFocus(2)">
+            <input type="text" class="input-box" maxlength="1" id="char3" oninput="moveFocus(3)">
+            <input type="text" class="input-box" maxlength="1" id="char4" oninput="moveFocus(4)">
+        </div>
+        <button onclick="checkCode()">Submit</button>
     </div>
-    <button onclick="checkCode()">Submit</button>
-
     <script>
         function moveFocus(current) {
             if (current < 4) {
