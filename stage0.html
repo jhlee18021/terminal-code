@@ -54,8 +54,12 @@
         }
 
         function handleBackspace(event, current) {
-            if (event.key === 'Backspace' && !event.target.value && current > 1) {
-                document.getElementById('char' + (current - 1)).focus();
+            if (event.key === 'Backspace') {
+                if (!event.target.value && current > 1) {
+                    const prevInput = document.getElementById('char' + (current - 1));
+                    prevInput.value = '';
+                    prevInput.focus();
+                }
             }
         }
 
