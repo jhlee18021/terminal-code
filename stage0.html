@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 0</title>
+    <style>
+        .input-box {
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            text-align: center;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter the 4-letter code</h1>
+    <div>
+        <input type="text" class="input-box" maxlength="1" id="char1" oninput="moveFocus(1)">
+        <input type="text" class="input-box" maxlength="1" id="char2" oninput="moveFocus(2)">
+        <input type="text" class="input-box" maxlength="1" id="char3" oninput="moveFocus(3)">
+        <input type="text" class="input-box" maxlength="1" id="char4" oninput="moveFocus(4)">
+    </div>
+    <button onclick="checkCode()">Submit</button>
+
+    <script>
+        function moveFocus(current) {
+            if (current < 4) {
+                document.getElementById('char' + (current + 1)).focus();
+            }
+        }
+
+        function checkCode() {
+            const code = ['char1', 'char2', 'char3', 'char4'].map(id => document.getElementById(id).value).join('');
+            if (code === 'CODE') {
+                window.location.href = 'stage1.html';
+            } else {
+                alert('Incorrect code, please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

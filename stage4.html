@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 4</title>
+    <style>
+        .hidden { display: none; }
+        .visible { display: block; }
+    </style>
+</head>
+<body>
+    <h1>Stage 4</h1>
+    <input type="text" id="wordInput" placeholder="Enter the word">
+    <button onclick="checkWord()">Submit</button>
+    <div id="congrats" class="hidden">
+        <h2>Congratulations! 빠밤!</h2>
+    </div>
+    <script>
+        function checkWord() {
+            const input = document.getElementById('wordInput').value;
+            if (input === "correctWord") {
+                document.getElementById('congrats').className = "visible";
+            } else {
+                alert('Incorrect word, please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
