@@ -37,6 +37,11 @@
             height: 40px;
             font-size: 16px;
         }
+        .instructions {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +54,12 @@
             <input type="text" class="input-box" maxlength="1" id="char4" oninput="moveFocus(4)" onkeydown="handleBackspace(event, 4)" autocomplete="off">
         </div>
         <button onclick="checkCode()">Submit</button>
+        <div class="instructions">
+            <p>1. 가장 밝게 빛나는 곳</p>
+            <p>2. 지식이 모여있는 곳</p>
+            <p>3. 세상과 소통하는 곳</p>
+            <p>4. 나누는 자</p>
+        </div>
     </div>
     <script>
         function moveFocus(current) {
