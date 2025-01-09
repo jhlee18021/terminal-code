@@ -7,7 +7,7 @@
     <title>Stage 0</title>
     <style>
         body {
-            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred background image */
+            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred image */
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -15,6 +15,10 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            transition: opacity 1s ease-out;
+        }
+        .fade-out {
+            opacity: 0;
         }
         .input-box {
             width: 50px;
@@ -66,7 +70,10 @@
         function checkCode() {
             const code = ['char1', 'char2', 'char3', 'char4'].map(id => document.getElementById(id).value).join('');
             if (code === 'CODE') {
-                window.location.href = 'stage1.html';
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = 'stage1.html';
+                }, 1000);
             } else {
                 alert('Incorrect code, please try again.');
             }

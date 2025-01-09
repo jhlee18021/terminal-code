@@ -7,7 +7,7 @@
     <title>Stage 2</title>
     <style>
         body {
-            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred background image */
+            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred image */
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -15,6 +15,10 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            transition: opacity 1s ease-out;
+        }
+        .fade-out {
+            opacity: 0;
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
@@ -32,7 +36,16 @@
 <body>
     <div class="container">
         <h1>Stage 2</h1>
-        <a href="stage3.html">Go to Stage 3</a>
+        <a href="#" id="nextStage">Go to Stage 3</a>
     </div>
+    <script>
+        document.getElementById('nextStage').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'stage3.html';
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
