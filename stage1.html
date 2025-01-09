@@ -31,14 +31,58 @@
             margin-top: 20px;
             font-size: 18px;
         }
+        .question {
+            margin-top: 30px;
+            text-align: left;
+            font-size: 18px;
+        }
+        .choices {
+            margin-top: 15px;
+        }
+        .choices label {
+            display: block;
+            margin: 5px 0;
+        }
+        button {
+            margin-top: 15px;
+            font-size: 16px;
+            padding: 10px 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Stage 1</h1>
+        <div class="question">
+            <p>- I become 5 in January</p>
+            <p>- I become 3 in February</p>
+            <p>- I become 6 in March</p>
+            <p>- I become 4 in April</p>
+            <p>“Who am I?”</p>
+        </div>
+        <div class="choices">
+            <label><input type="radio" name="answer" value="1"> 1</label>
+            <label><input type="radio" name="answer" value="2"> 2</label>
+            <label><input type="radio" name="answer" value="3"> 3</label>
+            <label><input type="radio" name="answer" value="4"> 4</label>
+        </div>
+        <button onclick="checkAnswer()">Submit</button>
         <a href="#" id="nextStage">Go to Stage 2</a>
     </div>
     <script>
+        function checkAnswer() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (selectedAnswer && selectedAnswer.value === '3') {
+                alert('Correct!');
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = 'stage2.html';
+                }, 1000);
+            } else {
+                alert('Incorrect, please try again.');
+            }
+        }
+
         document.getElementById('nextStage').addEventListener('click', function(e) {
             e.preventDefault();
             document.body.classList.add('fade-out');
