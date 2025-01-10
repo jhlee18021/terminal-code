@@ -114,6 +114,11 @@
             }
         });
 
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
         function checkAnswer() {
             const cells = Array.from(grid.children);
 
