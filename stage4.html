@@ -50,9 +50,15 @@
         </div>
     </div>
     <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
         function checkWord() {
             const input = document.getElementById('wordInput').value;
-            if (input === "correctWord") {
+            const teamName = getQueryParam('team');
+            if (input === teamName) {
                 document.getElementById('congrats').className = "visible";
             } else {
                 alert('Incorrect word, please try again.');

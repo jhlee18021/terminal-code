@@ -38,9 +38,16 @@
             font-size: 16px;
         }
         .instructions {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: left;
             font-size: 18px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .instructions p {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -62,6 +69,11 @@
         </div>
     </div>
     <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
         function moveFocus(current) {
             if (current < 4) {
                 document.getElementById('char' + (current + 1)).focus();
@@ -80,10 +92,11 @@
 
         function checkCode() {
             const code = ['char1', 'char2', 'char3', 'char4'].map(id => document.getElementById(id).value).join('');
+            const teamName = getQueryParam('team');
             if (code === 'CODE') {
                 document.body.classList.add('fade-out');
                 setTimeout(() => {
-                    window.location.href = 'stage1.html';
+                    window.location.href = `stage1.html?team=${teamName}`;
                 }, 1000);
             } else {
                 alert('Incorrect code, please try again.');

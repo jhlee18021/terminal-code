@@ -39,11 +39,17 @@
         <a href="#" id="nextStage">Go to Stage 4</a>
     </div>
     <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
         document.getElementById('nextStage').addEventListener('click', function(e) {
             e.preventDefault();
+            const teamName = getQueryParam('team');
             document.body.classList.add('fade-out');
             setTimeout(() => {
-                window.location.href = 'stage4.html';
+                window.location.href = `stage4.html?team=${teamName}`;
             }, 1000);
         });
     </script>

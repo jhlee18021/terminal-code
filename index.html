@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="refresh" content="0; url=stage0.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google" content="notranslate">
-    <title>Redirecting...</title>
+    <title>Index</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        input {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
-    If you are not redirected automatically, follow this <a href="stage0.html">link to Stage 0</a>.
+    <div class="container">
+        <h1>Enter Your Team Name</h1>
+        <input type="text" id="teamName" placeholder="Team Name" autocomplete="off">
+        <button onclick="start()">Start</button>
+    </div>
+    <script>
+        function start() {
+            const teamName = document.getElementById('teamName').value;
+            if (teamName) {
+                window.location.href = `stage0.html?team=${teamName}`;
+            } else {
+                alert('Please enter a team name.');
+            }
+        }
+    </script>
 </body>
 </html>
