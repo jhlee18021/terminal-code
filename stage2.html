@@ -7,7 +7,7 @@
     <title>Stage 2</title>
     <style>
         body {
-            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred image */
+            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg');
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -22,21 +22,62 @@
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
+            padding: 30px; /* Increased padding */
             border-radius: 8px;
             text-align: center;
+            width: 80%; /* Increased width */
+            max-width: 600px; /* Set a maximum width */
         }
-        a {
-            display: block;
-            margin-top: 20px;
+        .question {
             font-size: 18px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* 팝업 스타일 */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: none; /* 기본적으로 숨김 */
+        }
+        .popup.show {
+            display: block; /* 활성화 시 표시 */
+        }
+        .popup img {
+            width: 460px; /* 이미지 크기 조정 */
+            height: 400px;
+            margin-bottom: 10px; /* 텍스트와 간격 */
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Stage 2</h1>
-        <a href="#" id="nextStage">Go to Stage 3</a>
+        <div class="question">haje krano-luma serto lenta sekto-e silva-profunda tempo-nera</div>
+        <input type="text" id="answer" placeholder="Enter your answer here">
+        <button id="submitBtn">Submit</button>
+    </div>
+    <!-- 팝업 메시지 -->
+    <div class="popup" id="popup">
+        <img src="https://st.depositphotos.com/4323461/54901/v/1600/depositphotos_549018606-stock-illustration-evil-robot-boss-hits-table.jpg" alt="Popup Image">
+        <div id="popup-message">Incorrect! Try again.</div>
     </div>
     <script>
         function getQueryParam(param) {
@@ -44,14 +85,32 @@
             return urlParams.get(param);
         }
 
-        document.getElementById('nextStage').addEventListener('click', function(e) {
-            e.preventDefault();
-            const teamName = getQueryParam('team');
-            document.body.classList.add('fade-out');
+        function checkAnswer() {
+            const answer = document.getElementById('answer').value.trim();
+            const correctAnswerRegex = /남자가\s?깊은\s?숲에서\s?밤에\s?빛나는\s?돌을\s?몰래\s?천천히\s?숨겼다\./;
+            if (correctAnswerRegex.test(answer)) {
+                const teamName = getQueryParam('team');
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = `stage3.html?team=${teamName}`;
+                }, 1000);
+            } else {
+                showPopup('Incorrect! Try again.');
+            }
+        }
+
+        // 팝업 메시지 표시 함수
+        function showPopup(message) {
+            const popup = document.getElementById('popup');
+            const popupMessage = document.getElementById('popup-message');
+            popupMessage.textContent = message;
+            popup.classList.add('show');
             setTimeout(() => {
-                window.location.href = `stage3.html?team=${teamName}`;
-            }, 1000);
-        });
+                popup.classList.remove('show');
+            }, 2000); // 2초 후 사라짐
+        }
+
+        document.getElementById('submitBtn').addEventListener('click', checkAnswer);
     </script>
 </body>
 </html>
