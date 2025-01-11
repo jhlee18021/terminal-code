@@ -26,6 +26,7 @@
             font-size: 24px;
             text-align: center;
             margin: 5px;
+            text-transform: uppercase; /* Automatically transform input to uppercase */
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
@@ -93,7 +94,7 @@
         function checkCode() {
             const code = ['char1', 'char2', 'char3', 'char4'].map(id => document.getElementById(id).value).join('');
             const teamName = getQueryParam('team');
-            if (code === 'CODE') {
+            if (code.toUpperCase() === 'CODE') {
                 document.body.classList.add('fade-out');
                 setTimeout(() => {
                     window.location.href = `stage1.html?team=${teamName}`;
