@@ -28,7 +28,7 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(5, 50px);
+            grid-template-columns: repeat(3, 50px);
             grid-template-rows: repeat(5, 50px);
             gap: 5px;
             justify-content: center;
@@ -87,10 +87,12 @@
             <p>“Who am I?”</p>
         </div>
         <div class="grid" id="grid">
-            <!-- 5x5 grid cells -->
-            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
-            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
-            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
+            <!-- 3x5 grid cells -->
+            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
+            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
+            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
+            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
+            <div class="grid-cell"></div> <div class="grid-cell"></div> <div class="grid-cell"></div>
         </div>
         <button id="submitBtn">Submit</button>
     </div>
@@ -122,11 +124,11 @@
 
             // "3" 모양의 조건
             const correctIndices = [
-                0,  1,  2,  3,  4,
-                                9,
-                10, 11, 12, 13, 14, 
-                                19,
-                20, 21, 22, 23, 24
+                0,  1,  2,
+                        3,
+                4,  5,  6,
+                        7,
+                8,  9, 10
             ];
 
             let isCorrect = true;
