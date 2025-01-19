@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google" content="notranslate">
-    <title>Stage 4</title>
+    <title>Stage 3</title>
     <style>
         body {
-            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred image */
+            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg');
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -26,28 +26,34 @@
             border-radius: 8px;
             text-align: center;
         }
-        .hidden { display: none; }
-        .visible { display: block; }
-        #wordInput {
-            width: 300px;
-            height: 40px;
-            font-size: 16px;
-            margin-bottom: 10px;
+        a {
+            display: block;
+            margin-top: 20px;
+            font-size: 18px;
         }
-        button {
-            height: 40px;
-            font-size: 16px;
+        .timers {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .timer {
+            font-size: 20px;
+            color: white;
         }
     </style>
 </head>
 <body>
+    <div class="timers">
+        <div id="totalTimer" class="timer">Total Time: 00:00</div>
+        <div id="stageTimer" class="timer">Stage Time: 00:00</div>
+    </div>
     <div class="container">
-        <h1>Stage 4</h1>
-        <input type="text" id="wordInput" placeholder="Enter the word" autocomplete="off">
-        <button onclick="checkWord()">Submit</button>
-        <div id="congrats" class="hidden">
-            <h2>Congratulations! 축하합니다!</h2>
-        </div>
+        <h1>Stage 3</h1>
+        <a href="#" id="nextStage">Go to Stage 4</a>
     </div>
     <script>
         function getQueryParam(param) {
@@ -55,14 +61,34 @@
             return urlParams.get(param);
         }
 
-        function checkWord() {
-            const input = document.getElementById('wordInput').value;
+        document.getElementById('nextStage').addEventListener('click', function(e) {
+            e.preventDefault();
             const teamName = getQueryParam('team');
-            if (input === teamName) {
-                document.getElementById('congrats').className = "visible";
-            } else {
-                alert('Incorrect word, please try again.');
-            }
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = `stage5.html?team=${teamName}&totalSeconds=${totalSeconds}`;
+            }, 1000);
+        });
+
+        let totalSeconds = parseInt(getQueryParam('totalSeconds')) || 0;
+        let stageSeconds = 0;
+        let totalTimerInterval = setInterval(updateTotalTimer, 1000);
+        let stageTimerInterval = setInterval(updateStageTimer, 1000);
+
+        function updateTotalTimer() {
+            totalSeconds++;
+            document.getElementById('totalTimer').innerText = `Total Time: ${formatTime(totalSeconds)}`;
+        }
+
+        function updateStageTimer() {
+            stageSeconds++;
+            document.getElementById('stageTimer').innerText = `Stage Time: ${formatTime(stageSeconds)}`;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         }
     </script>
 </body>

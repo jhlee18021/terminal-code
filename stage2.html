@@ -22,11 +22,11 @@
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
-            padding: 30px; /* Increased padding */
+            padding: 30px;
             border-radius: 8px;
             text-align: center;
-            width: 80%; /* Increased width */
-            max-width: 600px; /* Set a maximum width */
+            width: 80%;
+            max-width: 600px;
         }
         .question {
             font-size: 18px;
@@ -43,7 +43,6 @@
             font-size: 16px;
             cursor: pointer;
         }
-        /* 팝업 스타일 */
         .popup {
             position: fixed;
             top: 50%;
@@ -55,26 +54,42 @@
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            display: none; /* 기본적으로 숨김 */
+            display: none;
         }
         .popup.show {
-            display: block; /* 활성화 시 표시 */
+            display: block;
         }
         .popup img {
-            width: 460px; /* 이미지 크기 조정 */
+            width: 460px;
             height: 400px;
-            margin-bottom: 10px; /* 텍스트와 간격 */
+            margin-bottom: 10px;
+        }
+        .timers {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .timer {
+            font-size: 20px;
+            color: white;
         }
     </style>
 </head>
 <body>
+    <div class="timers">
+        <div id="totalTimer" class="timer">Total Time: 00:00</div>
+        <div id="stageTimer" class="timer">Stage Time: 00:00</div>
+    </div>
     <div class="container">
         <h1>Stage 2</h1>
         <div class="question">haje krano-luma serto lenta sekto-e silva-profunda tempo-nera</div>
         <input type="text" id="answer" placeholder="Enter your answer here">
         <button id="submitBtn">Submit</button>
     </div>
-    <!-- 팝업 메시지 -->
     <div class="popup" id="popup">
         <img src="https://st.depositphotos.com/4323461/54901/v/1600/depositphotos_549018606-stock-illustration-evil-robot-boss-hits-table.jpg" alt="Popup Image">
         <div id="popup-message">Incorrect! Try again.</div>
@@ -92,14 +107,13 @@
                 const teamName = getQueryParam('team');
                 document.body.classList.add('fade-out');
                 setTimeout(() => {
-                    window.location.href = `stage3.html?team=${teamName}`;
+                    window.location.href = `stage3.html?team=${teamName}&totalSeconds=${totalSeconds}`;
                 }, 1000);
             } else {
                 showPopup('Incorrect! Try again.');
             }
         }
 
-        // 팝업 메시지 표시 함수
         function showPopup(message) {
             const popup = document.getElementById('popup');
             const popupMessage = document.getElementById('popup-message');
@@ -107,10 +121,31 @@
             popup.classList.add('show');
             setTimeout(() => {
                 popup.classList.remove('show');
-            }, 2000); // 2초 후 사라짐
+            }, 2000);
         }
 
         document.getElementById('submitBtn').addEventListener('click', checkAnswer);
+
+        let totalSeconds = parseInt(getQueryParam('totalSeconds')) || 0;
+        let stageSeconds = 0;
+        let totalTimerInterval = setInterval(updateTotalTimer, 1000);
+        let stageTimerInterval = setInterval(updateStageTimer, 1000);
+
+        function updateTotalTimer() {
+            totalSeconds++;
+            document.getElementById('totalTimer').innerText = `Total Time: ${formatTime(totalSeconds)}`;
+        }
+
+        function updateStageTimer() {
+            stageSeconds++;
+            document.getElementById('stageTimer').innerText = `Stage Time: ${formatTime(stageSeconds)}`;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
     </script>
 </body>
 </html>
