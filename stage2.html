@@ -102,8 +102,29 @@
 
         function checkAnswer() {
             const answer = document.getElementById('answer').value.trim();
-            const correctAnswerRegex = /남자가\s?깊은\s?숲에서\s?밤에\s?빛나는\s?돌을\s?몰래\s?천천히\s?숨겼다\./;
-            if (correctAnswerRegex.test(answer)) {
+
+            // 필수 단어 및 대안
+            const requiredWords = [
+                ["남자는", "남자가"], // 대안 허용
+                ["깊은"],
+                ["숲에서"],
+                ["밤에"],
+                ["빛나는"],
+                ["돌을"],
+                ["몰래"],
+                ["천천히"],
+                ["숨겼다"]
+            ];
+
+            // 입력된 답안을 정규화 (특수문자 제거 후 단어 배열로 변환)
+            const userWords = answer.replace(/[^\w\s]/g, "").split(/\s+/);
+
+            // 모든 필수 단어의 대안 중 하나가 포함되어 있는지 확인
+            const isCorrect = requiredWords.every(alternatives =>
+                alternatives.some(word => userWords.includes(word))
+            );
+
+            if (isCorrect) {
                 const teamName = getQueryParam('team');
                 document.body.classList.add('fade-out');
                 setTimeout(() => {
