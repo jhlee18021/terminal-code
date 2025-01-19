@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google" content="notranslate">
-    <title>Stage 4</title>
+    <title>Stage 5</title>
     <style>
         body {
             background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg');
@@ -39,6 +39,18 @@
             font-size: 20px;
             color: white;
         }
+        .hidden { display: none; }
+        .visible { display: block; }
+        #wordInput {
+            width: 300px;
+            height: 40px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            height: 40px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -47,12 +59,27 @@
         <div id="stageTimer" class="timer">Stage Time: 00:00</div>
     </div>
     <div class="container">
-        <h1>Stage 4</h1>
+        <h1>Stage 5</h1>
+        <input type="text" id="wordInput" placeholder="Enter the word" autocomplete="off">
+        <button onclick="checkWord()">Submit</button>
+        <div id="congrats" class="hidden">
+            <h2>Congratulations! 축하합니다!</h2>
+        </div>
     </div>
     <script>
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
+        }
+
+        function checkWord() {
+            const input = document.getElementById('wordInput').value;
+            const teamName = getQueryParam('team');
+            if (input === teamName) {
+                document.getElementById('congrats').className = "visible";
+            } else {
+                alert('Incorrect word, please try again.');
+            }
         }
 
         let totalSeconds = parseInt(getQueryParam('totalSeconds')) || 0;
