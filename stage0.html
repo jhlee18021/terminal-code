@@ -26,7 +26,7 @@
             font-size: 24px;
             text-align: center;
             margin: 5px;
-            text-transform: uppercase; /* Automatically transform input to uppercase */
+            text-transform: uppercase;
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
@@ -63,6 +63,18 @@
             font-size: 20px;
             color: white;
         }
+        .start-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        #startButton {
+            font-size: 24px;
+            padding: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -70,7 +82,10 @@
         <div id="totalTimer" class="timer">Total Time: 00:00</div>
         <div id="stageTimer" class="timer">Stage Time: 00:00</div>
     </div>
-    <div class="container">
+    <div class="start-container" id="startContainer">
+        <button id="startButton" onclick="startTimer()">Start Timer</button>
+    </div>
+    <div class="container" id="problemContainer" style="display: none;">
         <h1>Enter the 4-letter code</h1>
         <div>
             <input type="text" class="input-box" maxlength="1" id="char1" oninput="moveFocus(1)" onkeydown="handleBackspace(event, 1)" autocomplete="off">
@@ -85,7 +100,6 @@
             <p>3. 세상과 소통하는 곳</p>
             <p>4. 나누는 자</p>
         </div>
-        <button id="startButton" onclick="startTimer()">Start Timer</button>
     </div>
     <script>
         let totalSeconds = 0;
@@ -94,7 +108,8 @@
         let stageTimerInterval;
 
         function startTimer() {
-            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('startContainer').style.display = 'none';
+            document.getElementById('problemContainer').style.display = 'block';
             totalTimerInterval = setInterval(updateTotalTimer, 1000);
             stageTimerInterval = setInterval(updateStageTimer, 1000);
         }
