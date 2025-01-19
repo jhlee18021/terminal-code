@@ -7,7 +7,7 @@
     <title>Stage 0</title>
     <style>
         body {
-            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg'); /* Replace with a URL to your preferred image */
+            background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-blue-atmosphere-ai-smart-age-poster-image_193493.jpg');
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -50,9 +50,26 @@
         .instructions p {
             margin: 5px 0;
         }
+        .timers {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .timer {
+            font-size: 20px;
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <div class="timers">
+        <div id="totalTimer" class="timer">Total Time: 00:00</div>
+        <div id="stageTimer" class="timer">Stage Time: 00:00</div>
+    </div>
     <div class="container">
         <h1>Enter the 4-letter code</h1>
         <div>
@@ -68,11 +85,34 @@
             <p>3. 세상과 소통하는 곳</p>
             <p>4. 나누는 자</p>
         </div>
+        <button id="startButton" onclick="startTimer()">Start Timer</button>
     </div>
     <script>
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
+        let totalSeconds = 0;
+        let stageSeconds = 0;
+        let totalTimerInterval;
+        let stageTimerInterval;
+
+        function startTimer() {
+            document.getElementById('startButton').style.display = 'none';
+            totalTimerInterval = setInterval(updateTotalTimer, 1000);
+            stageTimerInterval = setInterval(updateStageTimer, 1000);
+        }
+
+        function updateTotalTimer() {
+            totalSeconds++;
+            document.getElementById('totalTimer').innerText = `Total Time: ${formatTime(totalSeconds)}`;
+        }
+
+        function updateStageTimer() {
+            stageSeconds++;
+            document.getElementById('stageTimer').innerText = `Stage Time: ${formatTime(stageSeconds)}`;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         }
 
         function moveFocus(current) {
@@ -96,12 +136,18 @@
             const teamName = getQueryParam('team');
             if (code.toUpperCase() === 'CODE') {
                 document.body.classList.add('fade-out');
+                clearInterval(stageTimerInterval);
                 setTimeout(() => {
-                    window.location.href = `stage1.html?team=${teamName}`;
+                    window.location.href = `stage1.html?team=${teamName}&totalSeconds=${totalSeconds}`;
                 }, 1000);
             } else {
                 alert('Incorrect code, please try again.');
             }
+        }
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
         }
     </script>
 </body>
