@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
     <title>Stage 0</title>
     <style>
         body {
@@ -15,11 +16,34 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            transition: opacity 1s ease-out;
+            transition: filter 1s ease-out, opacity 1s ease-out;
+            position: relative;
         }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            transition: opacity 1s ease-out;
+            z-index: 1;
+        }
+
+        .brighten::before {
+            opacity: 0;
+        }
+
+        .dimmed::before {
+            opacity: 1;
+        }
+
         .fade-out {
             opacity: 0;
         }
+
         .input-box {
             width: 50px;
             height: 50px;
@@ -28,16 +52,16 @@
             margin: 5px;
             text-transform: uppercase;
         }
+
         .container {
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 8px;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
-        button {
-            height: 40px;
-            font-size: 16px;
-        }
+
         .instructions {
             margin-top: 30px;
             text-align: left;
@@ -47,9 +71,11 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .instructions p {
             margin: 5px 0;
         }
+
         .timers {
             position: absolute;
             top: 10px;
@@ -58,32 +84,55 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 2;
         }
+
         .timer {
             font-size: 20px;
             color: white;
         }
+
         .start-container {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-align: center;
+            width: 30%;
+            height: 20%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 2;
         }
+
         #startButton {
-            font-size: 24px;
-            padding: 20px;
+            font-size: 32px;
+            padding: 15px;
             cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        #startButton:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
-<body>
+<body class="dimmed">
     <div class="timers">
         <div id="totalTimer" class="timer">Total Time: 00:00</div>
         <div id="stageTimer" class="timer">Stage Time: 00:00</div>
     </div>
     <div class="start-container" id="startContainer">
-        <button id="startButton" onclick="startTimer()">Start Timer</button>
+        <button id="startButton" onclick="startTimer()">MISSION START!</button>
     </div>
     <div class="container" id="problemContainer" style="display: none;">
         <h1>Enter the 4-letter code</h1>
@@ -108,6 +157,8 @@
         let stageTimerInterval;
 
         function startTimer() {
+            document.body.classList.remove('dimmed'); // 배경 밝기 복원
+            document.body.classList.add('brighten');
             document.getElementById('startContainer').style.display = 'none';
             document.getElementById('problemContainer').style.display = 'block';
             totalTimerInterval = setInterval(updateTotalTimer, 1000);
