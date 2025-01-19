@@ -99,11 +99,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-
+    
         function checkAnswer() {
             const answer = document.getElementById('answer').value.trim();
-
-            // 필수 단어 및 대안
+    
+            // 필수 단어 및 대안 정의
             const requiredWords = [
                 ["남자는", "남자가"], // 대안 허용
                 ["깊은"],
@@ -115,15 +115,24 @@
                 ["천천히"],
                 ["숨겼다"]
             ];
-
-            // 입력된 답안을 정규화 (특수문자 제거 후 단어 배열로 변환)
-            const userWords = answer.replace(/[^\w\s]/g, "").split(/\s+/);
-
-            // 모든 필수 단어의 대안 중 하나가 포함되어 있는지 확인
-            const isCorrect = requiredWords.every(alternatives =>
-                alternatives.some(word => userWords.includes(word))
-            );
-
+    
+            // 입력값에서 특수문자 제거
+            const normalizedAnswer = answer.replace(/[^\w가-힣]/g, "");
+    
+            // 모든 단어를 순서대로 포함하는지 검사
+            let currentIndex = 0;
+            const isCorrect = requiredWords.every(alternatives => {
+                // 대안 중 하나라도 포함되는 단어가 있는지 확인
+                const matchIndex = alternatives.findIndex(word =>
+                    normalizedAnswer.indexOf(word, currentIndex) !== -1
+                );
+                if (matchIndex === -1) return false; // 대안 단어 중 아무것도 못 찾음
+    
+                // 현재 인덱스를 업데이트하여 다음 단어를 탐색
+                currentIndex = normalizedAnswer.indexOf(alternatives[matchIndex], currentIndex) + alternatives[matchIndex].length;
+                return true;
+            });
+    
             if (isCorrect) {
                 const teamName = getQueryParam('team');
                 document.body.classList.add('fade-out');
@@ -134,7 +143,7 @@
                 showPopup('Incorrect! Try again.');
             }
         }
-
+    
         function showPopup(message) {
             const popup = document.getElementById('popup');
             const popupMessage = document.getElementById('popup-message');
@@ -144,29 +153,31 @@
                 popup.classList.remove('show');
             }, 2000);
         }
-
+    
         document.getElementById('submitBtn').addEventListener('click', checkAnswer);
-
+    
         let totalSeconds = parseInt(getQueryParam('totalSeconds')) || 0;
         let stageSeconds = 0;
         let totalTimerInterval = setInterval(updateTotalTimer, 1000);
         let stageTimerInterval = setInterval(updateStageTimer, 1000);
-
+    
         function updateTotalTimer() {
             totalSeconds++;
             document.getElementById('totalTimer').innerText = `Total Time: ${formatTime(totalSeconds)}`;
         }
-
+    
         function updateStageTimer() {
             stageSeconds++;
             document.getElementById('stageTimer').innerText = `Stage Time: ${formatTime(stageSeconds)}`;
         }
-
+    
         function formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
             const remainingSeconds = seconds % 60;
             return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         }
     </script>
+    
+        
 </body>
 </html>
