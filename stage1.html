@@ -167,7 +167,7 @@
                 const teamName = getQueryParam('team');
                 document.body.classList.add('fade-out');
                 setTimeout(() => {
-                    window.location.href = `stage2.html?team=${teamName}`;
+                    window.location.href = `stage2.html?team=${teamName}&totalSeconds=${totalSeconds}`;
                 }, 1000);
             } else {
                 showPopup('Incorrect! Try again.');
