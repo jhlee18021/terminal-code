@@ -16,6 +16,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             transition: opacity 1s ease-out;
+            position: relative;
         }
         .fade-out {
             opacity: 0;
@@ -25,6 +26,15 @@
             padding: 20px;
             border-radius: 8px;
             text-align: center;
+            z-index: 10;
+        }
+        .input-box {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            margin: 5px;
+            text-transform: uppercase;
         }
         a {
             display: block;
@@ -39,10 +49,43 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 10;
         }
         .timer {
             font-size: 20px;
             color: white;
+        }
+        .number {
+            position: absolute;
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: opacity 1s ease-out;
+            z-index: 5;
+        }
+        .hidden {
+            opacity: 0;
+        }
+        .refresh-button {
+            display: inline-block;
+            margin-top: 13px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS17vrWX5Cy8BWPGYa721Fik7Q-7imzIWKHSQ&s') no-repeat center;
+            background-size: contain;
+            border: none;
+            width: 35px;
+            height: 35px;
+        }
+        .nope {
+            position: absolute;
+            color: red;
+            font-size: 40px;
+            font-weight: bold;
+            z-index: 1;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -51,29 +94,113 @@
         <div id="totalTimer" class="timer">Total Time: 00:00</div>
         <div id="stageTimer" class="timer">Stage Time: 00:00</div>
     </div>
-    <div class="container">
+    <div class="container" id="container">
         <h1>Stage 4</h1>
-        <a href="#" id="nextStage">Go to Stage 5</a>
+        <div id="answerBox">
+            <input type="text" class="input-box" id="digit1" readonly>
+            <input type="text" class="input-box" id="digit2" readonly>
+            <input type="text" class="input-box" id="digit3" readonly>
+            <button class="refresh-button" onclick="resetNumbers()"></button>
+        </div>
+        <a href="#" id="nextStage" style="display:none;">Go to Stage 5</a>
     </div>
     <script>
+        let answer = "";
+        const correctAnswer = "540";
+        const totalNumbers = 10;
+        const numbers = [...Array(totalNumbers).keys()];
+        let totalSeconds = parseInt(getQueryParam('totalSeconds')) || 0;
+        let stageSeconds = 0;
+
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
 
-        document.getElementById('nextStage').addEventListener('click', function(e) {
-            e.preventDefault();
+        function displayNumbers() {
+            const timerHeight = 50;
+            const container = document.getElementById('container').getBoundingClientRect();
+            const margin = 20;
+
+            numbers.forEach(num => {
+                const numberElement = document.createElement('div');
+                numberElement.classList.add('number');
+                numberElement.textContent = num;
+
+                let top, left;
+                do {
+                    top = Math.random() * (window.innerHeight - timerHeight - container.height - 2 * margin) + timerHeight + margin;
+                    left = Math.random() * (window.innerWidth - 2 * margin) + margin;
+                } while (isOverlapping(top, left, numberElement));
+
+                numberElement.style.top = `${top}px`;
+                numberElement.style.left = `${left}px`;
+                numberElement.style.fontSize = `${20 + Math.random() * 40}px`;
+                numberElement.style.transform = `rotate(${Math.random() * 90 - 45}deg)`;
+                numberElement.style.zIndex = 5;
+                document.body.appendChild(numberElement);
+
+                numberElement.addEventListener('click', () => {
+                    if (!numberElement.classList.contains('hidden')) {
+                        answer += num;
+                        numberElement.classList.add('hidden');
+                        document.getElementById(`digit${answer.length}`).value = num;
+                        if (answer.length === 3) {
+                            checkAnswer();
+                        }
+                    }
+                });
+            });
+        }
+
+        function isOverlapping(top, left, element) {
+            const elementRect = element.getBoundingClientRect();
+            const container = document.getElementById('container').getBoundingClientRect();
+            const timer = document.querySelector('.timers').getBoundingClientRect();
+
+            return (
+                (top < timer.bottom && top + elementRect.height > timer.top) ||
+                (top < container.bottom && top + elementRect.height > container.top && left < container.right && left + elementRect.width > container.left)
+            );
+        }
+
+        function checkAnswer() {
+            if (answer === correctAnswer) {
+                proceedToNextStage();
+            } else {
+                displayNope();
+                resetNumbers();
+            }
+        }
+
+        function displayNope() {
+            const nopeElement = document.createElement('div');
+            nopeElement.classList.add('nope');
+            nopeElement.textContent = 'NOPE!';
+            nopeElement.style.top = `${Math.random() * 80}%`;
+            nopeElement.style.left = `${Math.random() * 80}%`;
+            nopeElement.style.transform = `rotate(${Math.random() * 90 - 45}deg)`;
+            document.body.appendChild(nopeElement);
+
+            nopeElement.addEventListener('click', () => {
+                nopeElement.remove();
+            });
+        }
+
+        function resetNumbers() {
+            answer = "";
+            document.querySelectorAll('.input-box').forEach(box => box.value = "");
+            document.querySelectorAll('.number').forEach(number => number.remove());
+            displayNumbers();
+        }
+
+        function proceedToNextStage() {
             const teamName = getQueryParam('team');
             document.body.classList.add('fade-out');
             setTimeout(() => {
                 window.location.href = `stage5.html?team=${teamName}&totalSeconds=${totalSeconds}`;
             }, 1000);
-        });
-
-        let totalSeconds = parseInt(getQueryParam('totalSeconds')) || 0;
-        let stageSeconds = 0;
-        let totalTimerInterval = setInterval(updateTotalTimer, 1000);
-        let stageTimerInterval = setInterval(updateStageTimer, 1000);
+        }
 
         function updateTotalTimer() {
             totalSeconds++;
@@ -90,6 +217,16 @@
             const remainingSeconds = seconds % 60;
             return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         }
+
+        document.getElementById('nextStage').addEventListener('click', function(e) {
+            e.preventDefault();
+            proceedToNextStage();
+        });
+
+        let totalTimerInterval = setInterval(updateTotalTimer, 1000);
+        let stageTimerInterval = setInterval(updateStageTimer, 1000);
+
+        displayNumbers();
     </script>
 </body>
 </html>
